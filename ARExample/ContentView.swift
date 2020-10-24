@@ -25,8 +25,20 @@ struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
-        let boxAnchor = try! Experience.loadBox()
-        arView.scene.anchors.append(boxAnchor)
+        let anchor = AnchorEntity(plane: .horizontal)
+        arView.scene.anchors.append(anchor)
+        let material = SimpleMaterial(color: .gray, isMetallic: false)
+        let objectSize: Float = 0.03
+        let object = MeshResource.generateSphere(radius: objectSize)
+        let entity = ModelEntity(mesh: object, materials: [material])
+        entity.transform.translation = [0, objectSize, 0]
+        anchor.addChild(entity)
+        
+        let lightObject = PointLight()
+        lightObject.light.intensity *= 0.01
+        lightObject.transform.translation = [0, objectSize * 3, 0]
+        anchor.addChild(lightObject)
+        
         return arView
         
     }
