@@ -39,7 +39,7 @@ struct ARViewContainer: UIViewRepresentable {
         let sphereEntity = ModelEntity(mesh: object, materials: [material])
         sphereAnchor.addChild(sphereEntity)
         arView.scene.anchors.append(sphereAnchor)
-        
+        arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
         let lightAnchor = AnchorEntity(plane: .horizontal)
         arView.scene.anchors.append(lightAnchor)
         let lightObject = PointLight()
