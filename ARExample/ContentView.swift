@@ -33,12 +33,12 @@ struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
-        let anchor = AnchorEntity(plane: .horizontal)
-        arView.scene.anchors.append(anchor)
-        let material = SimpleMaterial(color: .gray, isMetallic: false)
+        let sphereAnchor = AnchorEntity(plane: .horizontal)
+        let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
         let object = MeshResource.generateSphere(radius: objectSize)
         let entity = ModelEntity(mesh: object, materials: [material])
-        anchor.addChild(entity)
+        sphereAnchor.addChild(entity)
+        arView.scene.anchors.append(sphereAnchor)
         
         let lightAnchor = AnchorEntity(plane: .horizontal)
         arView.scene.anchors.append(lightAnchor)
