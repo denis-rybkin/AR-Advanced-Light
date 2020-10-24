@@ -36,8 +36,8 @@ struct ARViewContainer: UIViewRepresentable {
         let sphereAnchor = AnchorEntity(plane: .horizontal)
         let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
         let object = MeshResource.generateSphere(radius: objectSize)
-        let entity = ModelEntity(mesh: object, materials: [material])
-        sphereAnchor.addChild(entity)
+        let sphereEntity = ModelEntity(mesh: object, materials: [material])
+        sphereAnchor.addChild(sphereEntity)
         arView.scene.anchors.append(sphereAnchor)
         
         let lightAnchor = AnchorEntity(plane: .horizontal)
@@ -49,6 +49,9 @@ struct ARViewContainer: UIViewRepresentable {
 //        lightObject.transform.translation = [offset, objectSize * 2, 0]
 //        let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
         lightAnchor.addChild(lightObject)
+        
+        sphereEntity.generateCollisionShapes(recursive: true)
+        arView.installGestures([.translation], for: sphereEntity)
         
         return arView
     }
