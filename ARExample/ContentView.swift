@@ -31,29 +31,38 @@ struct ARViewContainer: UIViewRepresentable {
     
     private let objectSize: Float = 0.03
     
+    let arView = ARView(frame: .zero)
+    let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
+    
     func makeUIView(context: Context) -> ARView {
-        let arView = ARView(frame: .zero)
+        arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
+        addSphere(arView)
+        addLight(arView)
+        return arView
+    }
+    
+    private func addSphere(_ arView: ARView) {
         let sphereAnchor = AnchorEntity(plane: .horizontal)
-        let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
         let object = MeshResource.generateSphere(radius: objectSize)
         let sphereEntity = ModelEntity(mesh: object, materials: [material])
         sphereAnchor.addChild(sphereEntity)
         arView.scene.anchors.append(sphereAnchor)
-        arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
-        let lightAnchor = AnchorEntity(plane: .horizontal)
-        arView.scene.anchors.append(lightAnchor)
-        let lightObject = PointLight()
-        lightObject.light.intensity *= 0.01
-        // debug object
-//        let lightObject = MeshResource.generateSphere(radius: objectSize / 4)
-//        lightObject.transform.translation = [offset, objectSize * 2, 0]
-//        let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
-        lightAnchor.addChild(lightObject)
-        
         sphereEntity.generateCollisionShapes(recursive: true)
         arView.installGestures([.translation], for: sphereEntity)
-        
-        return arView
+    }
+    
+    private func addLight(_ arView: ARView, needDebugObject: Bool = true) {
+        let lightAnchor = AnchorEntity(plane: .horizontal)
+        arView.scene.anchors.append(lightAnchor)
+        if needDebugObject {
+            let lightObject = MeshResource.generateSphere(radius: objectSize / 4)
+            let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
+            lightAnchor.addChild(lightEntity)
+        } else {
+            let lightObject = PointLight()
+            lightObject.light.intensity *= 0.01
+            lightAnchor.addChild(lightObject)
+        }
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
