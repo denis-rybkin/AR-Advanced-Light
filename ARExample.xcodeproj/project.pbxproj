@@ -13,6 +13,7 @@
 		B72C03F525407EDD004D5A79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B72C03F425407EDD004D5A79 /* Assets.xcassets */; };
 		B72C03F825407EDD004D5A79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B72C03F725407EDD004D5A79 /* Preview Assets.xcassets */; };
 		B72C03FB25407EDD004D5A79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B72C03F925407EDD004D5A79 /* LaunchScreen.storyboard */; };
+		B74B002B254678F300E2FE53 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74B002A254678F300E2FE53 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B72C03F725407EDD004D5A79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B72C03FA25407EDD004D5A79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B72C03FC25407EDD004D5A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B74B002A254678F300E2FE53 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				B72C03EE25407EDB004D5A79 /* AppDelegate.swift */,
 				B72C03F025407EDB004D5A79 /* ContentView.swift */,
+				B74B002A254678F300E2FE53 /* Model.swift */,
 				B72C03F225407EDB004D5A79 /* Experience.rcproject */,
 				B72C03F425407EDD004D5A79 /* Assets.xcassets */,
 				B72C03F925407EDD004D5A79 /* LaunchScreen.storyboard */,
@@ -148,6 +151,7 @@
 				B72C03F125407EDB004D5A79 /* ContentView.swift in Sources */,
 				B72C03EF25407EDB004D5A79 /* AppDelegate.swift in Sources */,
 				B72C03F325407EDB004D5A79 /* Experience.rcproject in Sources */,
+				B74B002B254678F300E2FE53 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

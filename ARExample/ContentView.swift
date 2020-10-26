@@ -10,9 +10,13 @@ import RealityKit
 
 struct ContentView : View {
     
+    let model = Model()
+    
     @State private var offset: Float = 0
     
     @State private var hidePlane: Bool = false
+    
+    let timer = Timer.publish(every: 3.0 / 200.0, on: .current, in: .common).autoconnect()
     
     var body: some View {
         ZStack {
@@ -27,6 +31,10 @@ struct ContentView : View {
                 Slider(value: $offset, in: 0...1)
                     .padding()
             }
+        }
+        .onReceive(timer) { _ in
+            model.updateValue()
+            offset = Float(model.value)
         }
     }
 }
