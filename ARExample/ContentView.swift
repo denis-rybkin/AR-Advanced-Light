@@ -16,7 +16,8 @@ struct ContentView : View {
     
     @State private var hidePlane: Bool = false
     
-    let timer = Timer.publish(every: 3.0 / 200.0, on: .current, in: .common).autoconnect()
+    let timer = Timer.publish(every: 3.0 / 90.0, on: .current, in: .common)
+                     .autoconnect()
     
     var body: some View {
         ZStack {
@@ -27,8 +28,6 @@ struct ContentView : View {
                 Toggle(isOn: $hidePlane) {
                     Text("Hide plane")
                 }
-                    .padding()
-                Slider(value: $offset, in: 0...1)
                     .padding()
             }
         }

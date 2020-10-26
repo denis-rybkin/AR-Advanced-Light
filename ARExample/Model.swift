@@ -10,7 +10,7 @@ import Foundation
 class Model {
     
     private let timeDuration: TimeInterval = 3
-    private let periodTimes: Double = 200
+    private let periodTimes: Double = 90
     
     private(set) var value = 0.0
     private var maxValue = 1.0
