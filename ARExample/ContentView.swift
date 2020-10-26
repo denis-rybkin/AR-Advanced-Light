@@ -121,9 +121,7 @@ struct ARViewContainer: UIViewRepresentable {
         let objectsOffsets: Float = 0.05
         for (i, sphere) in makeSpheres().enumerated() {
             let x = (Float(i) * objectsOffsets) - objectsOffsets
-            sphere.transform.translation = [x,
-                                            objectsOffsets,
-                                            -objectsOffsets]
+            sphere.transform.translation = [x, objectsOffsets, -objectsOffsets]
             entity.addChild(sphere)
         }
     }
