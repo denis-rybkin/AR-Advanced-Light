@@ -36,6 +36,9 @@ struct ARViewContainer: UIViewRepresentable {
     let keyboardDepth: Float = 0.19
     let keyboardWidth: Float = 0.3
     
+    let lightHeight: Float = 0.05
+    var lightDepth: Float { -keyboardDepth/2 }
+    
     let needDebug = true
     
     func makeUIView(context: Context) -> ARView {
@@ -86,7 +89,7 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ uiView: ARView, context: Context) {
         // light
         uiView.scene.anchors[0].children[0].children[0]
-                    .transform.translation = [offset, 0.05, -keyboardDepth/2]
+                    .transform.translation = [offset, lightHeight, lightDepth]
     }
     
 }
