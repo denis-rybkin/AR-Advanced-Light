@@ -40,6 +40,7 @@ struct ARViewContainer: UIViewRepresentable {
     
     let arView = ARView(frame: .zero)
     let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
+    let invisibleMaterial = OcclusionMaterial()
     let keyboardDepth: Float = 0.19
     let keyboardWidth: Float = 0.3
     
@@ -96,11 +97,11 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ uiView: ARView, context: Context) {
         let light = uiView.scene.anchors[0].children[0].children[0]
         light.transform.translation = [offset, lightHeight, lightDepth]
-        let plane = uiView.scene.anchors[0].children[0]
+        let plane = uiView.scene.anchors[0].children[0] as! ModelEntity
         if hidePlane {
-            plane.isEnabled = false
+            plane.model!.materials = [invisibleMaterial]
         } else {
-            plane.isEnabled = true
+            plane.model!.materials = [material]
         }
     }
     
