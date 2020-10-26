@@ -54,7 +54,7 @@ struct ARViewContainer: UIViewRepresentable {
     private let objectSize: Float = 0.03
     
     let arView = ARView(frame: .zero)
-    let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
+    let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: true)
     let invisibleMaterial = OcclusionMaterial()
     let keyboardDepth: Float = 0.19
     let keyboardWidth: Float = 0.3
@@ -63,7 +63,7 @@ struct ARViewContainer: UIViewRepresentable {
     let lightHeight: Float = 0.05
     var lightDepth: Float { -keyboardDepth/2 }
     
-    let needDebug = true
+    let needDebug = false
     
     func makeUIView(context: Context) -> ARView {
         if needDebug {
@@ -90,11 +90,7 @@ struct ARViewContainer: UIViewRepresentable {
             let sphereEntity = ModelEntity(mesh: object, materials: [material])
             return sphereEntity
         }
-        let sphere1 = makeSphere()
-        let sphere2 = makeSphere()
-        let sphere3 = makeSphere()
-        
-        return [sphere1, sphere2, sphere3]
+        return [makeSphere(), makeSphere(), makeSphere()]
     }
     
     private func makeLight() -> Entity {
@@ -124,7 +120,8 @@ struct ARViewContainer: UIViewRepresentable {
         
         let objectsOffsets: Float = 0.05
         for (i, sphere) in makeSpheres().enumerated() {
-            sphere.transform.translation = [(Float(i) * objectsOffsets) - objectsOffsets,
+            let x = (Float(i) * objectsOffsets) - objectsOffsets
+            sphere.transform.translation = [x,
                                             objectsOffsets,
                                             -objectsOffsets]
             entity.addChild(sphere)
