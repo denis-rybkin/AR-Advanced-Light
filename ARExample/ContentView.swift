@@ -70,7 +70,7 @@ struct ARViewContainer: UIViewRepresentable {
             arView.debugOptions = [.showFeaturePoints, .showAnchorOrigins]
         }
         arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
-        addPlane(arView)
+        addEntities(arView)
         return arView
     }
     
@@ -82,6 +82,19 @@ struct ARViewContainer: UIViewRepresentable {
         arView.scene.anchors.append(sphereAnchor)
         sphereEntity.generateCollisionShapes(recursive: true)
         arView.installGestures([.translation], for: sphereEntity)
+    }
+    
+    private func makeSpheres() -> [Entity] {
+        func makeSphere() -> Entity {
+            let object = MeshResource.generateSphere(radius: objectSize / 2)
+            let sphereEntity = ModelEntity(mesh: object, materials: [material])
+            return sphereEntity
+        }
+        let sphere1 = makeSphere()
+        let sphere2 = makeSphere()
+        let sphere3 = makeSphere()
+        
+        return [sphere1, sphere2, sphere3]
     }
     
     private func makeLight() -> Entity {
@@ -96,7 +109,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
     }
     
-    private func addPlane(_ arView: ARView) {
+    private func addEntities(_ arView: ARView) {
         let anchor = AnchorEntity(plane: .horizontal)
         let object = MeshResource.generatePlane(width: keyboardWidth,
                                                 depth: keyboardDepth,
@@ -108,6 +121,14 @@ struct ARViewContainer: UIViewRepresentable {
         arView.installGestures([.translation, .rotation], for: entity)
         let lightEntity = makeLight()
         entity.addChild(lightEntity)
+        
+        let objectsOffsets: Float = 0.05
+        for (i, sphere) in makeSpheres().enumerated() {
+            sphere.transform.translation = [(Float(i) * objectsOffsets) - objectsOffsets,
+                                            objectsOffsets,
+                                            -objectsOffsets]
+            entity.addChild(sphere)
+        }
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
