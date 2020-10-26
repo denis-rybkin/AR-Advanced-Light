@@ -52,17 +52,15 @@ struct ARViewContainer: UIViewRepresentable {
         arView.installGestures([.translation], for: sphereEntity)
     }
     
-    private func addLight(_ arView: ARView, needDebugObject: Bool = true) {
-        let lightAnchor = AnchorEntity(plane: .horizontal)
-        arView.scene.anchors.append(lightAnchor)
+    private func makeLight(needDebugObject: Bool = true) -> Entity {
         if needDebugObject {
             let lightObject = MeshResource.generateSphere(radius: objectSize / 4)
             let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
-            lightAnchor.addChild(lightEntity)
+            return lightEntity
         } else {
-//            let lightObject = PointLight()
-//            lightObject.light.intensity *= 0.01
-//            lightAnchor.addChild(lightObject)
+            let lightObject = PointLight()
+            lightObject.light.intensity *= 0.01
+            return lightObject
         }
     }
     
@@ -75,9 +73,7 @@ struct ARViewContainer: UIViewRepresentable {
         arView.scene.anchors.append(anchor)
         entity.generateCollisionShapes(recursive: true)
         arView.installGestures([.all], for: entity)
-        
-        let lightObject = MeshResource.generateSphere(radius: objectSize / 4)
-        let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
+        let lightEntity = makeLight()
         entity.addChild(lightEntity)
     }
     
