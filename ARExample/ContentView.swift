@@ -36,7 +36,8 @@ struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> ARView {
         arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
-        addSphere(arView)
+//        addSphere(arView)
+        addPlane(arView)
         addLight(arView)
         return arView
     }
@@ -63,6 +64,17 @@ struct ARViewContainer: UIViewRepresentable {
             lightObject.light.intensity *= 0.01
             lightAnchor.addChild(lightObject)
         }
+    }
+    
+    private func addPlane(_ arView: ARView) {
+        let anchor = AnchorEntity(plane: .horizontal)
+        let object = MeshResource.generatePlane(width: 0.3, depth: 0.19,
+                                                cornerRadius: 0.01)
+        let entity = ModelEntity(mesh: object, materials: [material])
+        anchor.addChild(entity)
+        arView.scene.anchors.append(anchor)
+        entity.generateCollisionShapes(recursive: true)
+        arView.installGestures([.all], for: entity)
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
