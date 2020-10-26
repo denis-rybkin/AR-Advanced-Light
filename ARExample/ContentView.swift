@@ -12,12 +12,18 @@ struct ContentView : View {
     
     @State private var offset: Float = 0
     
+    @State private var hidePlane: Bool = false
+    
     var body: some View {
         ZStack {
-            ARViewContainer(offset: $offset)
+            ARViewContainer(offset: $offset, hidePlane: $hidePlane)
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
+                Toggle(isOn: $hidePlane) {
+                    Text("Hide plane")
+                }
+                    .padding()
                 Slider(value: $offset, in: -0.1...0.1)
                     .padding()
             }
@@ -28,6 +34,7 @@ struct ContentView : View {
 struct ARViewContainer: UIViewRepresentable {
     
     @Binding var offset: Float
+    @Binding var hidePlane: Bool
     
     private let objectSize: Float = 0.03
     
@@ -87,9 +94,14 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
-        // light
-        uiView.scene.anchors[0].children[0].children[0]
-                    .transform.translation = [offset, lightHeight, lightDepth]
+        let light = uiView.scene.anchors[0].children[0].children[0]
+        light.transform.translation = [offset, lightHeight, lightDepth]
+        let plane = uiView.scene.anchors[0].children[0]
+        if hidePlane {
+            plane.isEnabled = false
+        } else {
+            plane.isEnabled = true
+        }
     }
     
 }
