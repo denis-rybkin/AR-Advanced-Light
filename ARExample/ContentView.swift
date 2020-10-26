@@ -35,8 +35,12 @@ struct ARViewContainer: UIViewRepresentable {
     let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
     let keyboardDepth: Float = 0.19
     
+    let needDebug = true
+    
     func makeUIView(context: Context) -> ARView {
-        arView.debugOptions = [.showFeaturePoints, .showAnchorOrigins]
+        if needDebug {
+            arView.debugOptions = [.showFeaturePoints, .showAnchorOrigins]
+        }
         arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
         addPlane(arView)
         return arView
@@ -52,8 +56,8 @@ struct ARViewContainer: UIViewRepresentable {
         arView.installGestures([.translation], for: sphereEntity)
     }
     
-    private func makeLight(needDebugObject: Bool = true) -> Entity {
-        if needDebugObject {
+    private func makeLight() -> Entity {
+        if needDebug {
             let lightObject = MeshResource.generateSphere(radius: objectSize / 4)
             let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
             return lightEntity
