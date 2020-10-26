@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import Darwin
 
 struct ContentView : View {
     
@@ -33,6 +34,7 @@ struct ContentView : View {
                 Toggle(isOn: $hidePlane) {
                     Text("Hide plane")
                 }
+                    .labelsHidden()
                     .padding()
                 }
             }
