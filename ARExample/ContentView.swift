@@ -25,10 +25,16 @@ struct ContentView : View {
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
+                HStack {
+                Button("delay") {
+                    usleep(100000)
+                }
+                    .padding()
                 Toggle(isOn: $hidePlane) {
                     Text("Hide plane")
                 }
                     .padding()
+                }
             }
         }
         .onReceive(timer) { _ in
