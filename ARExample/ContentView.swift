@@ -34,6 +34,7 @@ struct ARViewContainer: UIViewRepresentable {
     let arView = ARView(frame: .zero)
     let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
     let keyboardDepth: Float = 0.19
+    let keyboardWidth: Float = 0.3
     
     let needDebug = true
     
@@ -70,13 +71,14 @@ struct ARViewContainer: UIViewRepresentable {
     
     private func addPlane(_ arView: ARView) {
         let anchor = AnchorEntity(plane: .horizontal)
-        let object = MeshResource.generatePlane(width: 0.3, depth: keyboardDepth,
+        let object = MeshResource.generatePlane(width: keyboardWidth,
+                                                depth: keyboardDepth,
                                                 cornerRadius: 0.01)
         let entity = ModelEntity(mesh: object, materials: [material])
         anchor.addChild(entity)
         arView.scene.anchors.append(anchor)
         entity.generateCollisionShapes(recursive: true)
-        arView.installGestures([.all], for: entity)
+        arView.installGestures([.translation, .rotation], for: entity)
         let lightEntity = makeLight()
         entity.addChild(lightEntity)
     }
