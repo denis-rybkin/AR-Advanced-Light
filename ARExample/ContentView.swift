@@ -24,7 +24,7 @@ struct ContentView : View {
                     Text("Hide plane")
                 }
                     .padding()
-                Slider(value: $offset, in: -0.1...0.1)
+                Slider(value: $offset, in: 0...1)
                     .padding()
             }
         }
@@ -95,8 +95,9 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
+        let lightOffset = (offset * keyboardWidth) - keyboardWidth/2
         let light = uiView.scene.anchors[0].children[0].children[0]
-        light.transform.translation = [offset, lightHeight, lightDepth]
+        light.transform.translation = [lightOffset, lightHeight, lightDepth]
         let plane = uiView.scene.anchors[0].children[0] as! ModelEntity
         if hidePlane {
             plane.model!.materials = [invisibleMaterial]
