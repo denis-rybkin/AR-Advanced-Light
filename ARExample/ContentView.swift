@@ -33,13 +33,12 @@ struct ARViewContainer: UIViewRepresentable {
     
     let arView = ARView(frame: .zero)
     let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
+    let keyboardDepth: Float = 0.19
     
     func makeUIView(context: Context) -> ARView {
         arView.debugOptions = [.showFeaturePoints, .showAnchorOrigins]
         arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
-//        addSphere(arView)
         addPlane(arView)
-        addLight(arView)
         return arView
     }
     
@@ -61,28 +60,31 @@ struct ARViewContainer: UIViewRepresentable {
             let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
             lightAnchor.addChild(lightEntity)
         } else {
-            let lightObject = PointLight()
-            lightObject.light.intensity *= 0.01
-            lightAnchor.addChild(lightObject)
+//            let lightObject = PointLight()
+//            lightObject.light.intensity *= 0.01
+//            lightAnchor.addChild(lightObject)
         }
     }
     
     private func addPlane(_ arView: ARView) {
         let anchor = AnchorEntity(plane: .horizontal)
-        let object = MeshResource.generatePlane(width: 0.3, depth: 0.19,
+        let object = MeshResource.generatePlane(width: 0.3, depth: keyboardDepth,
                                                 cornerRadius: 0.01)
         let entity = ModelEntity(mesh: object, materials: [material])
         anchor.addChild(entity)
         arView.scene.anchors.append(anchor)
         entity.generateCollisionShapes(recursive: true)
         arView.installGestures([.all], for: entity)
+        
+        let lightObject = MeshResource.generateSphere(radius: objectSize / 4)
+        let lightEntity = ModelEntity(mesh: lightObject, materials: [material])
+        entity.addChild(lightEntity)
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
-        // plane
-        uiView.scene.anchors[0].transform.translation = [0, 0, 0]
         // light
-        uiView.scene.anchors[1].transform.translation = [offset, objectSize * 3, 0]
+        uiView.scene.anchors[0].children[0].children[0]
+                    .transform.translation = [offset, 0.05, -keyboardDepth/2]
     }
     
 }
