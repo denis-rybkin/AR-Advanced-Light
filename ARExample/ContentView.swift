@@ -35,6 +35,7 @@ struct ARViewContainer: UIViewRepresentable {
     let material = SimpleMaterial(color: .gray, roughness: 0.5, isMetallic: false)
     
     func makeUIView(context: Context) -> ARView {
+        arView.debugOptions = [.showFeaturePoints, .showAnchorOrigins]
         arView.renderOptions = ARView.RenderOptions.disableGroundingShadows
 //        addSphere(arView)
         addPlane(arView)
@@ -78,7 +79,9 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
-        uiView.scene.anchors[0].transform.translation = [0, objectSize, 0] // need fix
+        // plane
+        uiView.scene.anchors[0].transform.translation = [0, 0, 0]
+        // light
         uiView.scene.anchors[1].transform.translation = [offset, objectSize * 3, 0]
     }
     
