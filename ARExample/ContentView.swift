@@ -58,6 +58,7 @@ struct ARViewContainer: UIViewRepresentable {
     let invisibleMaterial = OcclusionMaterial()
     let keyboardDepth: Float = 0.19
     let keyboardWidth: Float = 0.3
+    let screenInset: Float = 0.02
     
     let lightHeight: Float = 0.05
     var lightDepth: Float { -keyboardDepth/2 }
@@ -110,7 +111,8 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
-        let lightOffset = (offset * keyboardWidth) - keyboardWidth/2
+        let screenWidth = keyboardWidth - (screenInset * 2)
+        let lightOffset = (offset * screenWidth) - screenWidth/2
         let light = uiView.scene.anchors[0].children[0].children[0]
         light.transform.translation = [lightOffset, lightHeight, lightDepth]
         let plane = uiView.scene.anchors[0].children[0] as! ModelEntity
